@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Task Pool</title>
+    <style>
+        .black_overlay{
+            display: none;
+            position: absolute;
+            top: 0%;
+            left: 0%;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            z-index:1001;
+            -moz-opacity: 0.8;
+            opacity:.80;
+            filter: alpha(opacity=88);
+        }
+        .white_content {
+            display: none;
+            position: absolute;
+            top: 25%;
+            left: 25%;
+            width: 55%;
+            height: 55%;
+            padding: 20px;
+            border: 2px black;
+            background-color: white;
+            z-index:1002;
+            overflow: auto;
+        }
+        input[type=checkbox]:checked + label.inline{
+            text-decoration: line-through;
+            color: crimson;
+        }
+    </style>
+</head>
+<body>
+    <p>TODO：
+        <button onclick = "document.getElementById('light').style.display='block';document.getElementById('fade').style.display='block'">Add Task</button>
+    </p>
+    <div id="light" class="white_content">
+        <input type="text" id="input_content">
+        <button  type="submit" onclick = "addTask()">Add</button>
+        <button onclick="document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none'">Cancel</button>
+    </div>
+    <div id="fade" class="black_overlay"></div>
+<script>
+    function addTask() {
+        var text=document.getElementById("input_content").value;
+
+        //adding empty value, alerts
+        if(text==""){
+            alert("The task should not be empty, please verify!");
+            return;
+        }
+
+        document.getElementById('light').style.display='none';
+        document.getElementById('fade').style.display='none';
+
+        var myDiv = document.getElementById("todoDiv");
+        // creating checkbox,label element
+        var checkbox = document.createElement('input');
+        var label = document.createElement('label');
+        var br=document.createElement('br');
+
+        // Assigning the attributes
+        // to created checkbox
+        checkbox.type = "checkbox";
+        checkbox.id="cb_"+text;
+
+
+        var checkEle=document.getElementById(checkbox.id);
+        if(checkEle==null){
+            // assigning attributes for
+        // the created label tag
+        label.classList.add('inline');
+        label.htmlFor = checkbox.id;
+        label.appendChild(document.createTextNode(text));
+
+
+        // appending the checkbox
+        // and label to div
+        myDiv.appendChild(checkbox);
+        myDiv.appendChild(label);
+        myDiv.appendChild(br);
+
+        //clear input text after successfully add task
+        document.getElementById("input_content").value="";
+        }else{
+            alert("You have created a existing task, please verify!");
+            document.getElementById("input_content").value="";
+            document.getElementById('light').style.display='block';
+            document.getElementById('fade').style.display='block';
+        }
+    }
+</script>
+<form method="post">
+    <span id="todoDiv" class="cb">
+        <input type="checkbox" id="cb_firsttask"/>
+        <label for="cb_firsttask" class="inline">first task</label><br>
+    </span>
+    <button  type="submit">Submit</button>
+</form>
+</body>
+</html>
+
